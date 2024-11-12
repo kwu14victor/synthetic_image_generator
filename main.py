@@ -103,6 +103,9 @@ class SynCellImage:
             print('cell not found')
             #exit the loop if the id assigned is invalid
             return
+    def describe(self):
+         print(f'the image size is: {self.height} by {self.width}')
+         print(f'currently have {len([f for f in self.cell_dict if f])} cells')
 
 class SynCell:
     '''
@@ -211,6 +214,10 @@ class SynCell:
                               'constant', constant_values=(0, 0))
             self.cell_img = np.pad(self.cell_img, ((row_pad, 0), (col_pad,0)),\
                               'constant', constant_values=(0, 0))
+    def describe(self):
+        for attr, value in self.__dict__.items():
+            if 'cell_' not in attr:
+                print(attr, ":", value)
 
 
 def apply_gaussian(image, random = False, sigma=(7,7)):

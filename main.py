@@ -2,6 +2,11 @@
 11.11.2024 ver 0.0.0 by KLW
 This script aims to generate synthetic cell images to train segmentation models
 The project is originated from the data scientist interview for St-Pierre Lab at BCM
+
+Important assumptions:
+1. 8500 (16-bit) is the minimum pixel value to be considered as a valid cell.
+2. For data format, cell images are 16-bit and labels are 8-bit (according to problem statement).
+3. The intensity distribution of cells follows the Gaussian distribution.
 '''
 import numpy as np
 from skimage import morphology, io, transform
@@ -177,8 +182,11 @@ class SynCell:
 
         self.cell_mask = np.where(self.cell_img>self.min_int, 1, 0)
         if mode!='center':
-            eroted_mask = morphology.binary_erosion(self.cell_mask, structure=morphology.disk(3))
-            noise = np.random.random(self.cell_mask.shape) > 0.98
+            #random morphology modification to create non-convex shapes
+            #Current effect does not look good
+            #TODO: make this better and resemble real cells more
+            eroted_mask = morphology.binary_erosion(self.cell_mask, morphology.disk(3))
+            noise = np.random.random(self.cell_mask.shape) < 0.98
             self.cell_mask = np.logical_and(self.cell_mask, np.logical_and(eroted_mask, noise))
 
     def pad_cell(self):

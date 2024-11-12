@@ -21,10 +21,9 @@ plt.imshow(canvas.label, cmap='viridis')
 plt.colorbar()
 plt.show()
 
-
-io.imsave('cellimage_original.png', canvas.image)
-io.imsave('celllabel_original.png', canvas.label)
-
+#Remove a cell
 canvas.delete_cells(2)
+#This function shows the number of cells in the current data
 canvas.describe()
+#Then we can look at the properties of the created cells
 canvas.cell_dict[0].describe()

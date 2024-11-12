@@ -19,6 +19,10 @@ class SynCellImage:
         width (int): the width of the synthetic image
     
         Returns a SynCellImage object with all the cells in the image, image, and label
+
+        Usage:
+        Data = SynCellImage(120,120)
+        This will create an image data object with the size of 120*120
         '''
         if isinstance(height, int) and isinstance(width, int):
             #initialize the attributes of the object
@@ -38,6 +42,10 @@ class SynCellImage:
 
         Arguments:
         cell (SynCell): the synthetic cell object to add to the data
+
+        Usage:
+        Data.add_cells(new_cell)
+        This will add the new_cell object into the cell collection of the Data object.
         '''
         if self.cell_id>=255:
             #8-bit label image can only store 256 cells
@@ -66,6 +74,12 @@ class SynCellImage:
     def delete_cells(self, cell_id):
         '''
         Delete selected cell from the image by referring to cell id
+
+        Usage:
+        Data.delete_cell(0)
+        This will remove the first cell in the collection from Data.
+        Data.delete_cell(256)
+        This will return 'cell not found', because the SynCell object with that index does not exist.
         '''
         if len(self.cell_dict)>cell_id-1 and self.cell_dict[cell_id]:
             old_cell = self.cell_dict[cell_id]
@@ -106,6 +120,11 @@ class SynCell:
         min_int (int): minimal valid value for a pixel to be considered as a cell
     
         Returns a SynCell object with the metadata, image, and label
+
+        Usage:
+        new_cell = SynCell((50,50), 58000, 20)
+        This will generate a cell with the centroid at (50,50)
+        With the maximum intensity of 58000, and radius=20
         '''
         centroid_x, centroid_y = centroid[0], centroid[1]
         #check if input format is valid
@@ -135,13 +154,17 @@ class SynCell:
     def draw_cell_block(self):
         '''
         Initialize the cell as a circular object
+
+        Usage: called when initializing SynCell object, not intended for further calls
         '''
         self.cell_mask = morphology.disk(self.size).astype(bool)
         self.cell_img = np.where(self.cell_mask==1, self.intensity, 0)
 
     def modify_intensity(self, mode = 'center'):
         '''
-        Apply the Gaussian pattern to the intensitt distribution of the cell image
+        Apply the Gaussian pattern to the intensity distribution of the cell image
+        
+        Usage: called when initializing SynCell object, not intended for further calls
         '''
         self.cell_img = apply_gaussian(self.cell_img)
         self.cell_img = np.where(self.cell_mask==1, self.cell_img, 0)
@@ -162,6 +185,8 @@ class SynCell:
         '''
         Align the image patch of this cell to the origin of the overall image by padding
         Use the assigned coordinates of the centroid can help us do the math 
+
+        Usage: called when initializing SynCell object, not intended for further calls
         '''
         row_pad = self.centroid_x-self.size
         col_pad = self.centroid_y-self.size
@@ -191,6 +216,9 @@ def apply_gaussian(image, random = False, sigma=(7,7)):
 
     Return:
     image*gaussian (np.array): cell image with gaussian pettern applied
+
+    Usage:
+    applied_img = apply_gaussian(raw_img, sigma=(10,10))
     '''
     size = image.shape
     if not random:

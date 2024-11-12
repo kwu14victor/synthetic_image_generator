@@ -1,10 +1,10 @@
-This is a repository for creating synthetic cell images and labels
-The created files can be used to train segmentation models
+This is a repository for creating synthetic cell images and labels.<br />
+The created files can be used to train segmentation models.<br />
 
 Requirements:<br />
-numpy<br />
-scikit-image<br />
-matplotlib
+numpy==1.21.6<br />
+scikit-image==0.16.2<br />
+matplotlib==3.2.2<br />
 
 References:<br />
 Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2.<br />

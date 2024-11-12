@@ -209,39 +209,3 @@ def apply_gaussian(image, random = False, sigma=(7,7)):
                         (y_arr - mean_y)**2 / (2 * sigma_y**2)))
     return image*gaussian
 
-if __name__ == '__main__':
-    #cell = SynCell(50,50,45000,10)
-    #cell2 = SynCell(150,170,30000,20)
-    #io.imsave('test7.png', cell.cell_mask.astype(np.uint8)*255)
-    #io.imsave('test8.png', cell.cell_img)
-    canvas = SynCellImage(120,120)#2048,2048)
-    #canvas.add_cells(cell)
-    #canvas.add_cells(cell2)
-    #io.imsave('test9.png', canvas.image)
-    #io.imsave('test10.png', canvas.label)
-    for _ in range(15):
-        canvas.add_cells(SynCell((np.random.randint(10,110), np.random.randint(40,110)),\
-                                 np.random.randint(20000,60000), np.random.randint(10,30),\
-                                 np.random.uniform(1,2), np.random.randint(0,359)))
-    plt.figure()
-    plt.imshow(canvas.image)#, cmap='afmhot')
-    plt.colorbar()
-    plt.savefig('cellimage.png')
-
-    plt.figure()
-    plt.imshow(canvas.label, cmap='viridis')
-    plt.colorbar()
-    plt.savefig('celllabel.png')
-
-    #canvas = SynCellImage(200,200)
-
-    #for _ in range(1):
-    #    canvas.add_cells(SynCell((np.random.randint(199,200), np.random.randint(199,200)),\
-    #                              np.random.randint(30000,60000), np.random.randint(100,120),\
-    #                              np.random.uniform(1,1.0001), np.random.randint(0,359)))
-    io.imsave('cellimage_original.png', canvas.image)
-    io.imsave('celllabel_original.png', canvas.label)
-    #canvas.delete_cells(0)
-    #io.imsave('test26.png', canvas.image)
-
-#def draw_circle(center_x, center_y):
